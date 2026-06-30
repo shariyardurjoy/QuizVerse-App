@@ -156,12 +156,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
             child: GridView.builder(
               itemCount: categories.length,
               gridDelegate:
-                  const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: .85,
-              ),
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: 0.78,
+                ),
               itemBuilder: (context, index) {
                 final category = categories[index];
 
@@ -213,7 +213,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
                         Text(
                           category.name,
-                          maxLines: 2,
+                          maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontSize: 16,
