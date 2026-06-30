@@ -140,11 +140,10 @@ class HomeScreen extends StatelessWidget {
               ),
               
               const SizedBox(height: 32),
-              
-              // Optional: A small "Recent" or "Stats" placeholder header
-              // This makes the dashboard feel like a dashboard without needing extra API data
+
+              // 4. Honest & Helpful "How to Play" Section
               const Text(
-                'Quick Stats',
+                'How to Play',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -152,62 +151,49 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildStatCard('🔥', 'Streak', '3 Days'),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: _buildStatCard('🎯', 'Accuracy', '85%'),
-                  ),
-                ],
-              )
+
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.03),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: const Column(
+                  children: [
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Icon(Icons.library_books_rounded, color: Color(0xFF4F46E5), size: 28),
+                      title: Text('1. Choose a Category', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+                      subtitle: Text('Browse the library and select a topic.', style: TextStyle(fontSize: 13, color: Color(0xFF6B7280))),
+                    ),
+                    Divider(height: 16, color: Color(0xFFF3F4F6)),
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Icon(Icons.psychology_rounded, color: Color(0xFF4F46E5), size: 28),
+                      title: Text('2. Answer Questions', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+                      subtitle: Text('Pick the correct options to test your skills.', style: TextStyle(fontSize: 13, color: Color(0xFF6B7280))),
+                    ),
+                    Divider(height: 16, color: Color(0xFFF3F4F6)),
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: Icon(Icons.emoji_events_rounded, color: Color(0xFF4F46E5), size: 28),
+                      title: Text('3. Get Results', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+                      subtitle: Text('See your final score instantly at the end.', style: TextStyle(fontSize: 13, color: Color(0xFF6B7280))),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  // Helper widget for fake stats to make the dashboard look complete
-  Widget _buildStatCard(String icon, String title, String value) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white, // Surface Rule: White cards on grey background
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(icon, style: const TextStyle(fontSize: 24)),
-          const SizedBox(height: 12),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Color(0xFF6B7280),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF111827),
-            ),
-          ),
-        ],
       ),
     );
   }
