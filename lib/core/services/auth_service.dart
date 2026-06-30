@@ -37,7 +37,14 @@ class AuthService {
   }
 
   Future<void> signOut() async {
-    await _googleSignIn.signOut();
+    try {
+      // This forcefully clears the cached Google account on the device
+      await _googleSignIn.disconnect();
+    } catch (e) {
+      // If disconnect fails (e.g., user wasn't fully initialized), fallback to regular sign out
+      await _googleSignIn.signOut();
+    }
+    // Clear the Firebase instance session
     await _firebaseAuth.signOut();
   }
 

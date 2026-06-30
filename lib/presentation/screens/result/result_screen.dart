@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../home/home_screen.dart';
+import '../main_wrapper.dart';
 
 class ResultScreen extends StatelessWidget {
   final int score;
@@ -38,7 +38,7 @@ class ResultScreen extends StatelessWidget {
                   // Navigate back to home and remove all previous screens from stack
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                    MaterialPageRoute(builder: (context) => const MainWrapper()),
                     (route) => false,
                   );
                 },
