@@ -1,155 +1,277 @@
 import 'package:flutter/material.dart';
-// Import your model, API service, and quiz screen path here:
-// import '../../../data/models/category_model.dart'; 
-// import '../../../data/services/api_service.dart';
-// import '../quiz/quiz_screen.dart';
 
-class CategoryScreen extends StatelessWidget {
+import '../../../core/services/api_service.dart';
+import '../../../data/models/category_model.dart';
+import '../quiz/quiz_screen.dart';
+
+class CategoryScreen extends StatefulWidget {
   const CategoryScreen({Key? key}) : super(key: key);
 
-  // Helper method to dynamically assign clean Flutter Icons based on API title strings
-  IconData _getCategoryIcon(String title) {
-    final lowerTitle = title.toLowerCase();
-    if (lowerTitle.contains('math')) return Icons.calculate_rounded;
-    if (lowerTitle.contains('physics')) return Icons.bolt_rounded;
-    if (lowerTitle.contains('chemistry')) return Icons.science_rounded;
-    if (lowerTitle.contains('biology')) return Icons.biotech_rounded;
-    if (lowerTitle.contains('computer')) return Icons.computer_rounded;
-    return Icons.menu_book_rounded; // Fallback professional icon
+  @override
+  State<CategoryScreen> createState() => _CategoryScreenState();
+}
+
+class _CategoryScreenState extends State<CategoryScreen> {
+  final ApiService _apiService = ApiService();
+  late Future<List<CategoryModel>> _categoriesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCategories();
   }
 
-  // Helper method to dynamically assign a smooth color theme to each card type
+  void _loadCategories() {
+    _categoriesFuture = _apiService.getCategories();
+  }
+
+  IconData _getCategoryIcon(String title) {
+    final lower = title.toLowerCase();
+
+    if (lower.contains('math')) return Icons.calculate_rounded;
+    if (lower.contains('physics')) return Icons.bolt_rounded;
+    if (lower.contains('chemistry')) return Icons.science_rounded;
+    if (lower.contains('biology')) return Icons.biotech_rounded;
+    if (lower.contains('computer')) return Icons.computer_rounded;
+    if (lower.contains('science')) return Icons.science_rounded;
+    if (lower.contains('geography')) return Icons.public_rounded;
+    if (lower.contains('history')) return Icons.account_balance_rounded;
+    if (lower.contains('general')) return Icons.quiz_rounded;
+    if (lower.contains('english')) return Icons.menu_book_rounded;
+    if (lower.contains('technology')) return Icons.memory_rounded;
+
+    return Icons.school_rounded;
+  }
+
   Color _getCategoryColor(String title) {
-    final lowerTitle = title.toLowerCase();
-    if (lowerTitle.contains('math')) return const Color(0xFFEF4444); // Red
-    if (lowerTitle.contains('physics')) return const Color(0xFFF59E0B); // Amber
-    if (lowerTitle.contains('chemistry')) return const Color(0xFF10B981); // Emerald
-    if (lowerTitle.contains('biology')) return const Color(0xFFEC4899); // Pink
-    if (lowerTitle.contains('computer')) return const Color(0xFF3B82F6); // Blue
-    return const Color(0xFF6366F1); // Standard QuizVerse Purple
+    final lower = title.toLowerCase();
+
+    if (lower.contains('math')) return const Color(0xFFEF4444);
+    if (lower.contains('physics')) return const Color(0xFFF59E0B);
+    if (lower.contains('chemistry')) return const Color(0xFF10B981);
+    if (lower.contains('biology')) return const Color(0xFFEC4899);
+    if (lower.contains('computer')) return const Color(0xFF3B82F6);
+    if (lower.contains('science')) return const Color(0xFF14B8A6);
+    if (lower.contains('history')) return const Color(0xFF8B5CF6);
+    if (lower.contains('geography')) return const Color(0xFF06B6D4);
+    if (lower.contains('general')) return const Color(0xFF6366F1);
+
+    return const Color(0xFF6366F1);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Global Design System: Consistent depth background
       backgroundColor: const Color(0xFFF6F7FB),
       appBar: AppBar(
-        title: const Text(
-          'Categories',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF111827)),
-        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        surfaceTintColor: Colors.transparent,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: Color(0xFF111827), size: 20),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Color(0xFF111827),
+            size: 20,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
-      ),
-      body: SafeArea(
-        // Replace this section with your actual API FutureBuilder data check!
-        // This structural template shows exactly how to format the inner GridView:
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-          child: GridView.builder(
-            itemCount: 6, // Hardcoded for preview; map this to your snapshot.data!.length
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              childAspectRatio: 0.85, // Enforces consistent card height proportions
-            ),
-            itemBuilder: (context, index) {
-              // Mock data mapping sample. Replace with your loop category variables:
-              final String categoryName = ['Math', 'General Knowledge', 'Physics', 'Biology', 'Chemistry', 'Computer'][index];
-              final String categoryId = 'mock_id'; 
-              
-              final cardColor = _getCategoryColor(categoryName);
-              final cardIcon = _getCategoryIcon(categoryName);
-
-              return GestureDetector(
-                onTap: () {
-                  // Navigate to your QuizScreen using the correct categoryId
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white, // Surface Rule: White cards on grey background
-                    borderRadius: BorderRadius.circular(20), // Consistent 20px radius
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.02),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // 1. Visual Anchor: Icon with a soft background circle tint
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: cardColor.withOpacity(0.1),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          cardIcon,
-                          color: cardColor,
-                          size: 28,
-                        ),
-                      ),
-                      const Spacer(),
-                      // 2. High-Impact Text Hierarchy
-                      Text(
-                        categoryName,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF111827),
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 4),
-                      const Text(
-                        'Test your knowledge',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color(0xFF9CA3AF),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      const Divider(height: 1, color: Color(0xFFF3F4F6)),
-                      const SizedBox(height: 8),
-                      // 3. Action Footer
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Start',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: cardColor,
-                            ),
-                          ),
-                          const SizedBox(width: 4),
-                          Icon(
-                            Icons.arrow_forward_rounded,
-                            size: 14,
-                            color: cardColor,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
+        title: const Text(
+          "Categories",
+          style: TextStyle(
+            color: Color(0xFF111827),
+            fontWeight: FontWeight.bold,
           ),
         ),
+      ),
+      body: FutureBuilder<List<CategoryModel>>(
+        future: _categoriesFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Color(0xFF6366F1),
+              ),
+            );
+          }
+
+          if (snapshot.hasError) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.cloud_off_rounded,
+                      color: Colors.redAccent,
+                      size: 60,
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      "Failed to load categories",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      snapshot.error.toString(),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _loadCategories();
+                        });
+                      },
+                      child: const Text("Retry"),
+                    )
+                  ],
+                ),
+              ),
+            );
+          }
+
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(
+              child: Text(
+                "No categories found.",
+                style: TextStyle(fontSize: 16),
+              ),
+            );
+          }
+
+          final categories = snapshot.data!;
+
+          return Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 16,
+            ),
+            child: GridView.builder(
+              itemCount: categories.length,
+              gridDelegate:
+                  const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: .85,
+              ),
+              itemBuilder: (context, index) {
+                final category = categories[index];
+
+                final color = _getCategoryColor(category.name);
+                final icon = _getCategoryIcon(category.name);
+
+                return InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => QuizScreen(
+                          categoryId: category.id,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(.04),
+                          blurRadius: 12,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: color.withOpacity(.12),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            icon,
+                            color: color,
+                            size: 28,
+                          ),
+                        ),
+
+                        const Spacer(),
+
+                        Text(
+                          category.name,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF111827),
+                          ),
+                        ),
+
+                        const SizedBox(height: 4),
+
+                        Text(
+                          category.description?.isNotEmpty == true
+                              ? category.description!
+                              : "Test your knowledge",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF9CA3AF),
+                          ),
+                        ),
+
+                        const SizedBox(height: 12),
+
+                        const Divider(
+                          color: Color(0xFFF3F4F6),
+                          height: 1,
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              "Start",
+                              style: TextStyle(
+                                color: color,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 12,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Icon(
+                              Icons.arrow_forward_rounded,
+                              size: 14,
+                              color: color,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }
