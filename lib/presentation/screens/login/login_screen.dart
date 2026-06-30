@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../../core/services/auth_service.dart';
 import '../main_wrapper.dart';
@@ -67,13 +66,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       : () async {
                           setState(() => _isLoading = true);
                           final user = await _authService.signInWithGoogle();
-                          debugPrint("Returned user: $user");
-                          debugPrint("Email: ${user?.email}");
-                          debugPrint("Name: ${user?.displayName}");
-                          debugPrint("UID: ${user?.uid}");
                           setState(() => _isLoading = false);
-                          
-                          if (user != null && mounted) {
+
+                          if (!mounted) return;
+
+                          if (user != null) {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -81,13 +78,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             );
                           } else {
-                            if (mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("Google Sign-In failed"),
-                                ),
-                              );
-                            }
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Google Sign-In failed"),
+                              ),
+                            );
                           }
                         },
                   // Professional adjustment: Uses standard cross-platform identity asset structure
