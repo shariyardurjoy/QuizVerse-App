@@ -19,9 +19,9 @@ class ApiService {
           return data.map((json) => CategoryModel.fromJson(json)).toList();
         }
       }
-      throw Exception('Failed to load categories');
-    } catch (e) {
-      throw Exception('Error fetching categories: $e');
+      throw Exception('Unable to load categories.');
+    } catch (_) {
+      throw Exception('Unable to load categories.');
     }
   }
 
@@ -38,9 +38,9 @@ class ApiService {
           return data.map((json) => QuestionModel.fromJson(json)).toList();
         }
       }
-      throw Exception('Failed to load questions');
-    } catch (e) {
-      throw Exception('Error fetching questions: $e');
+      throw Exception('Unable to load quiz questions.');
+    } catch (_) {
+      throw Exception('Unable to load quiz questions.');
     }
   }
 }

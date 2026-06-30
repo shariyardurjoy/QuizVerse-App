@@ -23,6 +23,9 @@ class _QuizScreenState extends State<QuizScreen> {
 
   List<QuestionModel> _questions = [];
 
+  bool _isLoading = true;
+  String? _errorMessage;
+
   int _currentIndex = 0;
   int _score = 0;
   int? _selectedAnswerIndex;
@@ -37,25 +40,32 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   Future<void> _loadQuestions() async {
+    if (!mounted) return;
+
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
     try {
-      final questions =
-          await _apiService.getQuestions(widget.categoryId);
+      final questions = await _apiService.getQuestions(widget.categoryId);
 
       if (!mounted) return;
 
       setState(() {
         _questions = questions;
+        _isLoading = false;
       });
 
       _startTimer();
-    } catch (e) {
+    } catch (_) {
       if (!mounted) return;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.toString()),
-        ),
-      );
+      setState(() {
+        _isLoading = false;
+        _errorMessage =
+            'Unable to load quiz questions. Please check your internet connection and try again.';
+      });
     }
   }
 
@@ -111,11 +121,73 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_questions.isEmpty) {
+    if (_isLoading) {
       return const Scaffold(
         backgroundColor: Color(0xFFF6F7FB),
         body: Center(
           child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    if (_errorMessage != null) {
+      return Scaffold(
+        backgroundColor: const Color(0xFFF6F7FB),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.wifi_off,
+                  size: 72,
+                  color: Color(0xFF4F46E5),
+                ),
+                const SizedBox(height: 24),
+                const Text(
+                  'No Internet Connection',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF111827),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  _errorMessage!,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Color(0xFF6B7280),
+                  ),
+                ),
+                const SizedBox(height: 32),
+                SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: ElevatedButton(
+                    onPressed: _loadQuestions,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF4F46E5),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: const Text(
+                      'Retry',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       );
     }

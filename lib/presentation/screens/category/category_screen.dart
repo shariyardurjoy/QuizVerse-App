@@ -103,23 +103,23 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   children: [
                     const Icon(
                       Icons.cloud_off_rounded,
-                      color: Colors.redAccent,
+                      color: Color(0xFF4F46E5),
                       size: 60,
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      "Failed to load categories",
+                      'No Internet Connection',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Text(
-                      snapshot.error.toString(),
+                    const Text(
+                      'Unable to load quiz categories. Please check your internet connection and tap Retry.',
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Colors.grey,
+                      style: TextStyle(
+                        color: Color(0xFF6B7280),
                       ),
                     ),
                     const SizedBox(height: 24),
