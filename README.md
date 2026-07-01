@@ -1,37 +1,152 @@
 # QuizVerse - Flutter Quiz Application
 
-A complete, feature-rich Flutter Quiz Application built for the Module 5 Assignment. Users can sign in with Google, explore various quiz categories, participate in timed challenges, and view their final results.
+A modern Flutter quiz application developed for the Module 5 Assignment. The app uses Google Authentication, retrieves quiz data from REST APIs, and provides an interactive timed quiz experience with a clean, responsive UI.
+
+---
 
 ## 🚀 Features
-- **Google Authentication:** Secure sign-in using Firebase Authentication.
-- **API Integration:** Dynamic quiz data fetched from external REST APIs using `http`.
-- **Category Browsing:** Browse and select from multiple unique quiz categories.
-- **Interactive Quiz Flow:** Smooth question transitions with a built-in timer.
-- **Dynamic Profile:** Personalized user experience displaying name, email, and photo.
-- **Clean Architecture:** Organized structure separating data, logic, and presentation layers.
+
+- Google Authentication using Firebase
+- REST API integration with the `http` package
+- Dynamic quiz categories
+- Timed quiz with countdown timer
+- Automatic score calculation
+- Interactive result screen
+- User profile with Google account information
+- Internet connection error handling with Retry option
+- Responsive and modern UI
+- Clean project structure
+
+---
 
 ## 📸 Screenshots
-| Login Page | Home Page | Quiz Page | Result Page | Profile Page |
-| :---: | :---: | :---: | :---: | :---: |
-| ![Login](screenshots/login_page.png) | ![Home](screenshots/home_page.png) | ![Quiz](screenshots/quiz_page.png) | ![Result](screenshots/result_page.png) | ![Profile](screenshots/profile_page.png) |
 
-*(Note: Ensure your screenshots are named correctly in the `screenshots/` folder)*
+| Login | Home | Category |
+|:---:|:---:|:---:|
+| ![](screenshots/login_page.png) | ![](screenshots/home_page.png) | ![](screenshots/category_page.png) |
+
+| Quiz | Result | Profile |
+|:---:|:---:|:---:|
+| ![](screenshots/quiz_page.png) | ![](screenshots/result_page.png) | ![](screenshots/profile_page.png) |
+
+| Error Handling |
+|:---:|
+| ![](screenshots/error_handling.png) |
+
+---
 
 ## 🛠 Tech Stack
-- **Framework:** Flutter
-- **Language:** Dart
-- **Backend/Auth:** Firebase Authentication (Google Sign-In)
-- **Networking:** `http` package
-- **Architecture:** MVVM-inspired Clean Architecture
+
+- Flutter
+- Dart
+- Firebase Authentication
+- Google Sign-In
+- HTTP Package
+- Material Design 3
+
+---
+
+## 📂 Project Structure
+
+```
+lib/
+│
+├── core/
+│   └── services/
+│
+├── data/
+│   └── models/
+│
+├── presentation/
+│   ├── screens/
+│   └── widgets/
+│
+└── app.dart
+```
+
+---
 
 ## 📋 Getting Started
 
 ### Prerequisites
-- Flutter SDK installed
-- Android Studio / VS Code
-- A Firebase project configured for this app
+
+- Flutter SDK 3.24+
+- Dart SDK
+- Android Studio or VS Code
+- Firebase Project configured
+- Android SDK
 
 ### Installation
-1. Clone the repository:
-   ```bash
-   git clone <your-repository-url>
+
+Clone the repository
+
+```bash
+git clone <your-repository-url>
+```
+
+Go to the project directory
+
+```bash
+cd actual_quiz_app
+```
+
+Install dependencies
+
+```bash
+flutter pub get
+```
+
+Run the application
+
+```bash
+flutter run
+```
+
+Build Release APK
+
+```bash
+flutter build apk --release
+```
+
+---
+
+## 🌐 API Used
+
+Categories
+
+```
+GET /api/v1/categories
+```
+
+Questions
+
+```
+GET /api/v1/categories/{categoryId}/questions
+```
+
+---
+
+## 📦 Dependencies
+
+- firebase_core
+- firebase_auth
+- google_sign_in
+- http
+- provider
+- cached_network_image
+
+---
+
+## 👨‍💻 Author
+
+**Shariyar Hossain Durjoy**
+
+Department of Computer Science & Engineering
+
+Rajshahi University of Engineering & Technology (RUET)
+
+---
+
+## 📄 License
+
+This project was developed for educational purposes as part of the Flutter Module 5 Assignment.
