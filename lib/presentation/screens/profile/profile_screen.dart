@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../login/login_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -19,6 +20,12 @@ class ProfileScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        surfaceTintColor: Colors.transparent,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
+        ),
         automaticallyImplyLeading: false, // Clean look inside wrapper tabs
       ),
       body: SafeArea(

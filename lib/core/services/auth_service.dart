@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
@@ -26,13 +25,6 @@ class AuthService {
     );
 
     final userCredential = await _firebaseAuth.signInWithCredential(credential);
-    debugPrint('=============');
-    debugPrint(userCredential.toString());
-    debugPrint(userCredential.user.toString());
-    debugPrint(userCredential.user?.uid);
-    debugPrint(userCredential.user?.email);
-    debugPrint(userCredential.user?.displayName);
-    debugPrint('=============');
     return userCredential.user;
   }
 

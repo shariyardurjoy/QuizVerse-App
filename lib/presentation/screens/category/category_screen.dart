@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../core/services/api_service.dart';
 import '../../../data/models/category_model.dart';
 import '../quiz/quiz_screen.dart';
@@ -64,6 +65,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
+        ),
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
@@ -144,8 +150,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF4F46E5),
                           foregroundColor: Colors.white,
-                          elevation: 2,
-                          shadowColor: const Color(0xFF4F46E5).withOpacity(0.2),
+                          surfaceTintColor: Colors.transparent,
+                          elevation: 4,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),

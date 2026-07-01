@@ -106,7 +106,8 @@ class HomeScreen extends StatelessWidget {
                     // Main Action Button inside the card
                     SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton.icon(
+                      height: 60,
+                      child: ElevatedButton(
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -116,22 +117,77 @@ class HomeScreen extends StatelessWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
                           backgroundColor: Colors.white,
-                          foregroundColor: const Color(0xFF4F46E5), // Purple text
-                          elevation: 0,
+                          foregroundColor: const Color(0xFF4F46E5),
+                          elevation: 4,
+                          shadowColor: Colors.black.withOpacity(0.18),
+                          surfaceTintColor: Colors.transparent,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
+                            side: BorderSide(
+                              color: Colors.white,
+                              width: 2,
+                            ),
                           ),
                         ),
-                        // Professional Flutter Icon instead of emoji
-                        icon: const Icon(Icons.explore_rounded, size: 20),
-                        label: const Text(
-                          'Browse Categories',
-                          style: TextStyle(
-                            fontSize: 16, 
-                            fontWeight: FontWeight.bold,
-                          ),
+                        child: Row(
+                          children: [
+                            // Left icon container
+                            Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [Color(0xFF6366F1), Color(0xFF4F46E5)],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0xFF4F46E5).withOpacity(0.4),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: const Icon(
+                                Icons.explore_rounded,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+
+                            const SizedBox(width: 14),
+
+                            // Label
+                            const Expanded(
+                              child: Text(
+                                "Browse Categories",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF1E1B4B),
+                                  letterSpacing: 0.2,
+                                ),
+                              ),
+                            ),
+
+                            // Right arrow in a tinted pill
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF4F46E5).withOpacity(0.10),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: const Icon(
+                                Icons.arrow_forward_rounded,
+                                color: Color(0xFF4F46E5),
+                                size: 20,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

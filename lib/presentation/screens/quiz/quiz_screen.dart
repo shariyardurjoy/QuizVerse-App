@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../core/services/api_service.dart';
 import '../../../data/models/question_model.dart';
@@ -200,6 +201,12 @@ class _QuizScreenState extends State<QuizScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        surfaceTintColor: Colors.transparent,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
+        ),
 
         title: Text(
           "Question ${_currentIndex + 1}/${_questions.length}",
