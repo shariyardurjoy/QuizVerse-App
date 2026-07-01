@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../core/services/api_service.dart';
 import '../../../data/models/category_model.dart';
 import '../quiz/quiz_screen.dart';
@@ -12,22 +11,23 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  final ApiService _apiService = ApiService();
   late Future<List<CategoryModel>> _categoriesFuture;
 
   @override
   void initState() {
-    super.initState();
+    super.initState(); // ✅ Fixed: Ends with a semicolon, no trailing block attached
     _loadCategories();
   }
 
+  // Idiomatic implementation lookup hook reference
   void _loadCategories() {
-    _categoriesFuture = _apiService.getCategories();
+    setState(() {
+      _categoriesFuture = ApiService().getCategories();
+    });
   }
 
   IconData _getCategoryIcon(String title) {
     final lower = title.toLowerCase();
-
     if (lower.contains('math')) return Icons.calculate_rounded;
     if (lower.contains('physics')) return Icons.bolt_rounded;
     if (lower.contains('chemistry')) return Icons.science_rounded;
@@ -39,13 +39,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
     if (lower.contains('general')) return Icons.quiz_rounded;
     if (lower.contains('english')) return Icons.menu_book_rounded;
     if (lower.contains('technology')) return Icons.memory_rounded;
-
     return Icons.school_rounded;
   }
 
   Color _getCategoryColor(String title) {
     final lower = title.toLowerCase();
-
     if (lower.contains('math')) return const Color(0xFFEF4444);
     if (lower.contains('physics')) return const Color(0xFFF59E0B);
     if (lower.contains('chemistry')) return const Color(0xFF10B981);
@@ -55,7 +53,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
     if (lower.contains('history')) return const Color(0xFF8B5CF6);
     if (lower.contains('geography')) return const Color(0xFF06B6D4);
     if (lower.contains('general')) return const Color(0xFF6366F1);
-
     return const Color(0xFF6366F1);
   }
 
@@ -112,6 +109,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
+                        color: Color(0xFF111827),
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -123,44 +121,37 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       ),
                     ),
                     const SizedBox(height: 24),
+                    
+                    // Idiomatic direct callback signature mapping assignment
                     SizedBox(
-                      width: 240,
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(16),
-                          onTap: () {
-                            setState(() {
-                              _loadCategories();
-                            });
-                          },
-                          child: Ink(
-                            height: 54,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF4F46E5),
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.08),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
-                            ),
-                            child: const Center(
-                              child: Text(
-                                "Retry",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
+                      width: 220,
+                      height: 52,
+                      child: ElevatedButton.icon(
+                        onPressed: _loadCategories,
+                        icon: const Icon(
+                          Icons.refresh_rounded,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                        label: const Text(
+                          "Retry",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF4F46E5),
+                          foregroundColor: Colors.white,
+                          elevation: 2,
+                          shadowColor: const Color(0xFF4F46E5).withOpacity(0.2),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -179,22 +170,17 @@ class _CategoryScreenState extends State<CategoryScreen> {
           final categories = snapshot.data!;
 
           return Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 16,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             child: GridView.builder(
               itemCount: categories.length,
-              gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: 0.78,
-                ),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: 0.78,
+              ),
               itemBuilder: (context, index) {
                 final category = categories[index];
-
                 final color = _getCategoryColor(category.name);
                 final icon = _getCategoryIcon(category.name);
 
@@ -238,9 +224,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             size: 28,
                           ),
                         ),
-
                         const Spacer(),
-
                         Text(
                           category.name,
                           maxLines: 1,
@@ -251,9 +235,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             color: Color(0xFF111827),
                           ),
                         ),
-
                         const SizedBox(height: 4),
-
                         Text(
                           category.description?.isNotEmpty == true
                               ? category.description!
@@ -265,16 +247,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             color: Color(0xFF9CA3AF),
                           ),
                         ),
-
                         const SizedBox(height: 12),
-
-                        const Divider(
-                          color: Color(0xFFF3F4F6),
-                          height: 1,
-                        ),
-
+                        const Divider(color: Color(0xFFF3F4F6), height: 1),
                         const SizedBox(height: 8),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
